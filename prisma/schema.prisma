@@ -1,0 +1,145 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  tasks         Task[]
+  intentions    Intention[]
+  reflections   Reflection[]
+  workModes     WorkMode[]
+  prayerTimes   PrayerTime[]
+  preferences   UserPreferences?
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  intention   String?
+  duaa        String?
+  barakahScore Int?
+  workMode    WorkMode? @relation(fields: [workModeId], references: [id])
+  workModeId  String?
+}
+
+model Intention {
+  id          String    @id @default(cuid())
+  content     String
+  domain      Domain
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  completed   Boolean   @default(false)
+}
+
+model Reflection {
+  id          String    @id @default(cuid())
+  content     String
+  type        ReflectionType
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model WorkMode {
+  id          String    @id @default(cuid())
+  type        WorkModeType
+  startTime   DateTime
+  endTime     DateTime?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  tasks       Task[]
+}
+
+model PrayerTime {
+  id          String    @id @default(cuid())
+  prayer      Prayer
+  time        DateTime
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model UserPreferences {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id])
+  theme       Theme     @default(LIGHT)
+  soundEnabled Boolean  @default(true)
+  notificationsEnabled Boolean @default(true)
+  defaultWorkMode WorkModeType @default(RIZQ)
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum Domain {
+  WORK
+  FAMILY
+  STUDY
+  COMMUNITY
+  WORSHIP
+}
+
+enum ReflectionType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  SPIRITUAL
+  GRATITUDE
+}
+
+enum WorkModeType {
+  IBADAH
+  ILM
+  KHIDMAH
+  RIZQ
+  FAMILY
+}
+
+enum Prayer {
+  FAJR
+  SUNRISE
+  DHUHR
+  ASR
+  MAGHRIB
+  ISHA
+}
+
+enum Theme {
+  LIGHT
+  DARK
+  SYSTEM
+} 
