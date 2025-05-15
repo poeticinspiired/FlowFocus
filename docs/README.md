@@ -1,6 +1,6 @@
 # FlowFocus Documentation
 
-Welcome to FlowFocus - Your Faith-Driven Cognitive Companion. This documentation will guide you through all the features and capabilities of FlowFocus, helping you achieve balance between worldly tasks and spiritual presence.
+Welcome to FlowFocus - Your Faith-Driven Cognitive Companion. T
 
 ## Core Features
 
