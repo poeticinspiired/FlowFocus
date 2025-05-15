@@ -1,1 +1,4 @@
 *.node filter=lfs diff=lfs merge=lfs -text
+.*FlowFocus[[:space:]]Spiritual[[:space:]]Productivity[[:space:]]Platform filter=lfs diff=lfs merge=lfs -text
+FlowFocus[[:space:]]Spiritual[[:space:]]Productivity[[:space:]]Platform/* filter=lfs diff=lfs merge=lfs -text
+*.FlowFocus[[:space:]]Spiritual[[:space:]]Productivity[[:space:]]Platform filter=lfs diff=lfs merge=lfs -text
